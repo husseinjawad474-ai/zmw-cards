@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>VIP Card Draw | Win Up to ZMW 1,000 Off</title>
+  <title>G LINK | VIP Card Draw</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,8 +15,8 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at top, #0d3b2e 0%, #051b14 60%, #020d09 100%);
-      color: #ffffff;
+      background: radial-gradient(circle at top, #1f1a0d 0%, #0b0a07 58%, #040403 100%);
+      color: #f8f3e3;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -31,11 +31,35 @@
       margin-bottom: 16px;
     }
 
+    .brand-box {
+      margin-bottom: 10px;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff3c4 0%, #d4af37 50%, #9e7416 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #d4af37;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
     .badge {
       display: inline-block;
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      color: #f3d266;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      color: #f5d76e;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1.5px;
@@ -48,7 +72,7 @@
     h1 {
       font-size: 26px;
       font-weight: 800;
-      background: linear-gradient(135deg, #fff6d1 0%, #d4af37 50%, #aa8220 100%);
+      background: linear-gradient(135deg, #fff7d6 0%, #e5be46 52%, #a87b18 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 6px;
@@ -56,8 +80,12 @@
 
     .subtitle {
       font-size: 14px;
-      color: #b8d0c7;
+      color: #cbbd93;
       line-height: 1.4;
+    }
+
+    .subtitle strong {
+      color: #f5d76e;
     }
 
     .cards-grid {
@@ -83,7 +111,7 @@
     }
 
     .card.dimmed {
-      opacity: 0.35;
+      opacity: 0.3;
       pointer-events: none;
       transform: scale(0.95);
     }
@@ -99,11 +127,11 @@
       justify-content: center;
       padding: 14px;
       text-align: center;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.75);
     }
 
     .card-front {
-      background: linear-gradient(145deg, #104938, #07261d);
+      background: linear-gradient(145deg, #1b1811 0%, #0b0a07 100%);
       border: 2px solid #d4af37;
     }
 
@@ -111,27 +139,27 @@
       content: "";
       position: absolute;
       inset: 7px;
-      border: 1px dashed rgba(212, 175, 55, 0.45);
+      border: 1px dashed rgba(212, 175, 55, 0.5);
       border-radius: 10px;
     }
 
     .card-icon {
       font-size: 32px;
       margin-bottom: 8px;
-      filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.4));
+      filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.45));
     }
 
     .card-label {
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 1px;
-      color: #f3d266;
+      letter-spacing: 1.2px;
+      color: #f5d76e;
       text-transform: uppercase;
     }
 
     .card-back {
-      background: linear-gradient(145deg, #fffdf5 0%, #f5e6b3 100%);
-      color: #062119;
+      background: linear-gradient(145deg, #fff8dc 0%, #e7c252 100%);
+      color: #12100a;
       border: 3px solid #d4af37;
       transform: rotateY(180deg);
     }
@@ -141,35 +169,36 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #0d4a38;
+      color: #3a2b06;
       margin-bottom: 4px;
     }
 
     .win-amount {
       font-size: 24px;
       font-weight: 900;
-      color: #051b14;
+      color: #0b0a07;
       line-height: 1.1;
     }
 
     .win-off {
       font-size: 13px;
-      font-weight: 800;
-      color: #b38416;
-      margin-top: 2px;
+      font-weight: 900;
+      color: #7a5607;
+      margin-top: 3px;
     }
 
     .result-box {
       display: none;
       width: 100%;
       max-width: 360px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(212, 175, 55, 0.5);
+      background: rgba(20, 17, 10, 0.88);
+      border: 1px solid rgba(212, 175, 55, 0.6);
       border-radius: 16px;
       padding: 16px;
       text-align: center;
       margin-top: 12px;
       backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
       animation: fadeUp 0.5s ease forwards;
     }
 
@@ -184,7 +213,7 @@
 
     .voucher-label {
       font-size: 11px;
-      color: #b8d0c7;
+      color: #cbbd93;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -193,13 +222,13 @@
       font-family: monospace;
       font-size: 20px;
       font-weight: 800;
-      color: #f3d266;
-      background: rgba(0, 0, 0, 0.35);
+      color: #f5d76e;
+      background: rgba(0, 0, 0, 0.6);
       padding: 8px 14px;
       border-radius: 8px;
       margin: 8px 0;
       letter-spacing: 1.5px;
-      border: 1px dashed rgba(212, 175, 55, 0.5);
+      border: 1px dashed rgba(212, 175, 55, 0.65);
     }
 
     .live-badge {
@@ -207,8 +236,9 @@
       align-items: center;
       gap: 6px;
       font-size: 12px;
-      color: #6ee7b7;
-      background: rgba(16, 185, 129, 0.12);
+      color: #f5d76e;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.35);
       padding: 4px 10px;
       border-radius: 20px;
       margin-top: 4px;
@@ -217,7 +247,7 @@
     .dot {
       width: 8px;
       height: 8px;
-      background: #10b981;
+      background: #eab308;
       border-radius: 50%;
       animation: pulse 1.2s infinite;
     }
@@ -229,7 +259,7 @@
 
     .terms {
       font-size: 11px;
-      color: #8aa89d;
+      color: #9e9069;
       margin-top: 10px;
     }
 
@@ -241,13 +271,13 @@
       align-items: center;
       margin-top: 18px;
       font-size: 11px;
-      color: #5c7a6f;
+      color: #8c7d56;
     }
 
     .reset-btn {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #7c998e;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #e5be46;
       padding: 4px 10px;
       border-radius: 6px;
       font-size: 11px;
@@ -258,6 +288,10 @@
 <body>
 
   <div class="header">
+    <div class="brand-box">
+      <div class="brand-name">G LINK</div>
+      <div class="brand-tagline">YOUR LINK TO QUALITY</div>
+    </div>
     <div class="badge">Instant Store Reward</div>
     <h1>Pick a Lucky Card</h1>
     <p class="subtitle">Tap one card below to reveal your instant discount up to <strong>ZMW 1,000 OFF</strong>!</p>
@@ -308,7 +342,7 @@
   </div>
 
   <div class="footer">
-    <span>VIP Customer Promo</span>
+    <span>G LINK • VIP Customer Promo</span>
     <button class="reset-btn" onclick="staffReset()">Staff Reset</button>
   </div>
 
@@ -317,11 +351,11 @@
 
     // Weighted prizes (Total = 100%)
     const PRIZES = [
-      { amount: 100, weight: 45 },
-      { amount: 200, weight: 25 },
-      { amount: 300, weight: 15 },
-      { amount: 500, weight: 10 },
-      { amount: 1000, weight: 5 }
+      { amount: 100, weight: 62 },
+      { amount: 200, weight: 22 },
+      { amount: 300, weight: 13 },
+      { amount: 500, weight: 3 },
+      { amount: 1000, weight: 0 }
     ];
 
     function getWeightedPrize() {
@@ -400,4 +434,3 @@
   </script>
 </body>
 </html>
-
