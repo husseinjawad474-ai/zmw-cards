@@ -192,4 +192,340 @@
       width: 100%;
       max-width: 360px;
       background: rgba(20, 17, 10, 0.88);
-      border: 1px solid rgba(212, 175
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .result-box.visible {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .voucher-label {
+      font-size: 11px;
+      color: #cbbd93;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .voucher-code {
+      font-family: monospace;
+      font-size: 20px;
+      font-weight: 800;
+      color: #f5d76e;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 14px;
+      border-radius: 8px;
+      margin: 8px 0;
+      letter-spacing: 1.5px;
+      border: 1px dashed rgba(212, 175, 55, 0.65);
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #f5d76e;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #eab308;
+      border-radius: 50%;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .terms {
+      font-size: 11px;
+      color: #9e9069;
+      margin-top: 10px;
+    }
+
+    .footer {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #8c7d56;
+    }
+
+    .reset-btn {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #e5be46;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand-box">
+      <div class="brand-name">G LINK</div>
+      <div class="brand-tagline">YOUR LINK TO QUALITY</div>
+    </div>
+    <div class="badge">Instant Store Reward</div>
+    <h1>Pick a Lucky Card</h1>
+    <p class="subtitle">Tap one card below to reveal your instant discount up to <strong>ZMW 1,000 OFF</strong>!</p>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid">
+    <div class="card" onclick="pickCard(0)">
+      <div class="card-face card-front">
+        <div class="card-icon">👑</div>
+        <div class="card-label">Card #1</div>
+      </div>
+      <div class="card-face card-back" id="back-0"></div>
+    </div>
+
+    <div class="card" onclick="pickCard(1)">
+      <div class="card-face card-front">
+        <div class="card-icon">💎</div>
+        <div class="card-label">Card #2</div>
+      </div>
+      <div class="card-face card-back" id="back-1"></div>
+    </div>
+
+    <div class="card" onclick="pickCard(2)">
+      <div class="card-face card-front">
+        <div class="card-icon">✨</div>
+        <div class="card-label">Card #3</div>
+      </div>
+      <div class="card-face card-back" id="back-2"></div>
+    </div>
+
+    <div class="card" onclick="pickCard(3)">
+      <div class="card-face card-front">
+        <div class="card-icon">🎁</div>
+        <div class="card-label">Card #4</div>
+      </div>
+      <div class="card-face card-back" id="back-3"></div>
+    </div>
+  </div>
+
+  <div class="result-box" id="resultBox">
+    <div class="voucher-label">Show this screen at checkout</div>
+    <div class="voucher-code" id="voucherCode">ZMW100-XXXX</div>
+    <div class="live-badge">
+      <span class="dot"></span>
+      <span id="liveClock">Live Verification</span>
+    </div>
+    <p class="terms">Valid today only • One draw per customer</p>
+  </div>
+
+  <div class="footer">
+    <span>G LINK • VIP Customer Promo</span>
+    <button class="reset-btn" onclick="staffReset()">Staff Reset</button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "zmw_card_draw_v2";
+
+    // Weighted prizes (Total = 100%)
+    const PRIZES = [
+      { amount: 100, weight: 62 },
+      { amount: 200, weight: 22 },
+      { amount: 300, weight: 13 },
+      { amount: 500, weight: 3 },
+      { amount: 1000, weight: 0 }
+    ];
+
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playFlipSound() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(280, now);
+      osc.frequency.exponentialRampToValueAtTime(560, now + 0.14);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.18, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.17);
+    }
+
+    function playWinFanfare(amount) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const notes = amount >= 500
+        ? [523.25, 659.25, 783.99, 1046.5, 1318.5]
+        : [523.25, 659.25, 783.99, 1046.5];
+
+      notes.forEach((freq, i) => {
+        const startTime = now + 0.12 + i * 0.09;
+        const duration = i === notes.length - 1 ? 0.42 : 0.18;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.001, startTime);
+        gain.gain.linearRampToValueAtTime(0.16, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.02);
+      });
+    }
+
+    function playResetSound() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.12);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.12, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.14);
+    }
+
+    function getWeightedPrize() {
+      const rand = Math.random() * 100;
+      let cumulative = 0;
+      for (const p of PRIZES) {
+        cumulative += p.weight;
+        if (rand < cumulative) return p.amount;
+      }
+      return 100;
+    }
+
+    function generateCode(amount) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let suffix = "";
+      for (let i = 0; i < 4; i++) {
+        suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return `ZMW${amount}-${suffix}`;
+    }
+
+    function renderResult(cardIndex, amount, code) {
+      const cards = document.querySelectorAll(".card");
+      cards.forEach((card, idx) => {
+        if (idx === cardIndex) {
+          document.getElementById(`back-${idx}`).innerHTML = `
+            <div class="win-title">You Won</div>
+            <div class="win-amount">ZMW ${amount.toLocaleString()}</div>
+            <div class="win-off">DISCOUNT</div>
+          `;
+          card.classList.add("flipped");
+        } else {
+          card.classList.add("dimmed");
+        }
+      });
+
+      document.getElementById("voucherCode").textContent = code;
+      document.getElementById("resultBox").classList.add("visible");
+    }
+
+    function pickCard(index) {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+      playFlipSound();
+      const wonAmount = getWeightedPrize();
+      playWinFanfare(wonAmount);
+      const code = generateCode(wonAmount);
+      const data = { cardIndex: index, amount: wonAmount, code: code };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      renderResult(index, wonAmount, code);
+    }
+
+    function staffReset() {
+      playResetSound();
+      localStorage.removeItem(STORAGE_KEY);
+      setTimeout(() => location.reload(), 120);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const dateStr = now.toLocaleDateString([], { day: '2-digit', month: 'short' });
+      document.getElementById("liveClock").textContent = `Valid Now • ${dateStr} ${timeStr}`;
+    }
+
+    // Restore state if already played
+    window.addEventListener("DOMContentLoaded", () => {
+      updateClock();
+      setInterval(updateClock, 1000);
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const { cardIndex, amount, code } = JSON.parse(saved);
+          renderResult(cardIndex, amount, code);
+        } catch (e) {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
