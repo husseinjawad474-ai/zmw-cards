@@ -82,4 +82,667 @@
     }
 
     h1 {
-      font-size: 26px
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff7d6 0%, #e5be46 52%, #a87b18 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #cbbd93;
+      line-height: 1.4;
+    }
+
+    .subtitle strong {
+      color: #f5d76e;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      width: 100%;
+      max-width: 360px;
+      margin: 12px auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      aspect-ratio: 3 / 4;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid #d4af37;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.75);
+      transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+      touch-action: none;
+      user-select: none;
+      transform: scale(1);
+    }
+
+    .card.revealed {
+      transform: scale(1.06);
+      border: 3px solid #ffe07d;
+      box-shadow: 0 0 34px rgba(255, 215, 0, 0.55), 0 18px 36px rgba(0, 0, 0, 0.85);
+      z-index: 5;
+    }
+
+    .card.dimmed {
+      opacity: 0.28;
+      pointer-events: none;
+      transform: scale(0.94);
+    }
+
+    .card-underlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #fff8dc 0%, #e7c252 100%);
+      color: #12100a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .win-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #3a2b06;
+      margin-bottom: 4px;
+    }
+
+    .win-amount {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0b0a07;
+      line-height: 1.1;
+    }
+
+    .win-off {
+      font-size: 13px;
+      font-weight: 900;
+      color: #7a5607;
+      margin-top: 3px;
+    }
+
+    .scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      display: block;
+      transition: opacity 0.35s ease;
+    }
+
+    .scratch-canvas.hidden-layer {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .result-box {
+      display: none;
+      width: 100%;
+      max-width: 360px;
+      background: rgba(20, 17, 10, 0.92);
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+      animation: fadeUp 0.5s ease forwards;
+      position: relative;
+      z-index: 2;
+    }
+
+    .result-box.visible {
+      display: block;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .voucher-label {
+      font-size: 11px;
+      color: #cbbd93;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .voucher-code {
+      font-family: monospace;
+      font-size: 20px;
+      font-weight: 800;
+      color: #f5d76e;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px 14px;
+      border-radius: 8px;
+      margin: 8px 0;
+      letter-spacing: 1.5px;
+      border: 1px dashed rgba(212, 175, 55, 0.65);
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #f5d76e;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #eab308;
+      border-radius: 50%;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .terms {
+      font-size: 11px;
+      color: #9e9069;
+      margin-top: 10px;
+    }
+
+    .footer {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #8c7d56;
+      position: relative;
+      z-index: 2;
+    }
+
+    .reset-btn {
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #e5be46;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="header">
+    <div class="brand-box">
+      <div class="brand-name">G LINK</div>
+      <div class="brand-tagline">YOUR LINK TO QUALITY</div>
+    </div>
+    <div class="badge">Instant Store Reward</div>
+    <h1>Scratch a Lucky Card</h1>
+    <p class="subtitle">Scratch one card below to reveal your instant discount up to <strong>ZMW 1,000 OFF</strong>!</p>
+  </div>
+
+  <div class="cards-grid" id="cardsGrid">
+    <div class="card" id="card-0">
+      <div class="card-underlay" id="underlay-0"></div>
+      <canvas class="scratch-canvas" id="scratch-0"></canvas>
+    </div>
+
+    <div class="card" id="card-1">
+      <div class="card-underlay" id="underlay-1"></div>
+      <canvas class="scratch-canvas" id="scratch-1"></canvas>
+    </div>
+
+    <div class="card" id="card-2">
+      <div class="card-underlay" id="underlay-2"></div>
+      <canvas class="scratch-canvas" id="scratch-2"></canvas>
+    </div>
+
+    <div class="card" id="card-3">
+      <div class="card-underlay" id="underlay-3"></div>
+      <canvas class="scratch-canvas" id="scratch-3"></canvas>
+    </div>
+  </div>
+
+  <div class="result-box" id="resultBox">
+    <div class="voucher-label">Show this screen at checkout</div>
+    <div class="voucher-code" id="voucherCode">ZMW100-XXXX</div>
+    <div class="live-badge">
+      <span class="dot"></span>
+      <span id="liveClock">Live Verification</span>
+    </div>
+    <p class="terms">Valid today only • One draw per customer</p>
+  </div>
+
+  <div class="footer">
+    <span>G LINK • VIP Customer Promo</span>
+    <button class="reset-btn" onclick="staffReset()">Staff Reset</button>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "zmw_card_draw_v3";
+    const CARD_META = [
+      { icon: "👑", label: "CARD #1" },
+      { icon: "💎", label: "CARD #2" },
+      { icon: "✨", label: "CARD #3" },
+      { icon: "🎁", label: "CARD #4" }
+    ];
+
+    // Weighted prizes (Total = 100%)
+    const PRIZES = [
+      { amount: 100, weight: 62 },
+      { amount: 200, weight: 22 },
+      { amount: 300, weight: 13 },
+      { amount: 500, weight: 3 },
+      { amount: 1000, weight: 0 }
+    ];
+
+    let audioCtx = null;
+    let lastScratchSoundTime = 0;
+    let gameLocked = false;
+    const cardPrizes = [];
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playScratchSound() {
+      const nowMs = performance.now();
+      if (nowMs - lastScratchSoundTime < 65) return;
+      lastScratchSoundTime = nowMs;
+
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "sawtooth";
+      const baseFreq = 340 + Math.random() * 220;
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.3, now + 0.045);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.075, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.06);
+    }
+
+    function playTone(ctx, freq, startTime, duration, volume = 0.2, type = "triangle") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, startTime);
+
+      gain.gain.setValueAtTime(0.001, startTime);
+      gain.gain.linearRampToValueAtTime(volume, startTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(startTime);
+      osc.stop(startTime + duration + 0.03);
+    }
+
+    function playWinFanfare(amount) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime + 0.08;
+      const melody = amount >= 300
+        ? [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98]
+        : [523.25, 659.25, 783.99, 1046.5, 1318.5];
+
+      melody.forEach((freq, idx) => {
+        const t = now + idx * 0.085;
+        const isLast = idx === melody.length - 1;
+        playTone(ctx, freq, t, isLast ? 0.6 : 0.18, isLast ? 0.24 : 0.19, "triangle");
+        if (isLast) {
+          playTone(ctx, 1046.5, t, 0.6, 0.15, "sine");
+          playTone(ctx, 1318.5, t + 0.04, 0.6, 0.15, "sine");
+        }
+      });
+    }
+
+    function playResetSound() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      playTone(ctx, 440, ctx.currentTime, 0.12, 0.12, "sine");
+    }
+
+    // Confetti Celebration Engine
+    const confettiCanvas = document.getElementById("confettiCanvas");
+    const cCtx = confettiCanvas.getContext("2d");
+    let confettiPieces = [];
+    let confettiAnimationId = null;
+
+    function resizeConfettiCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeConfettiCanvas);
+    resizeConfettiCanvas();
+
+    function launchConfetti() {
+      const colors = ["#ffd700", "#fff3b0", "#d4af37", "#ffae00", "#ffffff", "#f59e0b"];
+      confettiPieces = [];
+
+      for (let i = 0; i < 105; i++) {
+        confettiPieces.push({
+          x: Math.random() * confettiCanvas.width,
+          y: -20 - Math.random() * 140,
+          w: 6 + Math.random() * 7,
+          h: 10 + Math.random() * 9,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 3.6,
+          vy: 2.6 + Math.random() * 4.4,
+          angle: Math.random() * Math.PI * 2,
+          vAngle: (Math.random() - 0.5) * 0.24,
+          opacity: 1
+        });
+      }
+
+      if (confettiAnimationId) cancelAnimationFrame(confettiAnimationId);
+
+      const startTime = performance.now();
+      const maxDuration = 3500;
+
+      function drawConfetti(now) {
+        const elapsed = now - startTime;
+        cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+        let activeCount = 0;
+        for (const p of confettiPieces) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.angle += p.vAngle;
+          p.vx *= 0.992;
+
+          if (elapsed > maxDuration - 800) {
+            p.opacity = Math.max(0, (maxDuration - elapsed) / 800);
+          }
+
+          if (p.y < confettiCanvas.height + 30 && p.opacity > 0) {
+            activeCount++;
+            cCtx.save();
+            cCtx.globalAlpha = p.opacity;
+            cCtx.translate(p.x, p.y);
+            cCtx.rotate(p.angle);
+            cCtx.fillStyle = p.color;
+            cCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            cCtx.restore();
+          }
+        }
+
+        if (elapsed < maxDuration && activeCount > 0) {
+          confettiAnimationId = requestAnimationFrame(drawConfetti);
+        } else {
+          cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          confettiAnimationId = null;
+        }
+      }
+
+      confettiAnimationId = requestAnimationFrame(drawConfetti);
+    }
+
+    function getWeightedPrize() {
+      const rand = Math.random() * 100;
+      let cumulative = 0;
+      for (const p of PRIZES) {
+        cumulative += p.weight;
+        if (rand < cumulative) return p.amount;
+      }
+      return 100;
+    }
+
+    function generateCode(amount) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let suffix = "";
+      for (let i = 0; i < 4; i++) {
+        suffix += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return `ZMW${amount}-${suffix}`;
+    }
+
+    function setUnderlayHTML(idx, amount) {
+      document.getElementById(`underlay-${idx}`).innerHTML = `
+        <div class="win-title">You Won</div>
+        <div class="win-amount">ZMW ${amount.toLocaleString()}</div>
+        <div class="win-off">DISCOUNT</div>
+      `;
+    }
+
+    function paintScratchFoil(canvas, meta) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, "#231e11");
+      grad.addColorStop(0.5, "#121009");
+      grad.addColorStop(1, "#261f0e");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = "rgba(212, 175, 55, 0.55)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.strokeRect(8, 8, w - 16, h - 16);
+      ctx.setLineDash([]);
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "32px sans-serif";
+      ctx.fillText(meta.icon, w / 2, h * 0.42);
+
+      ctx.fillStyle = "#f5d76e";
+      ctx.font = "800 13px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText(meta.label, w / 2, h * 0.63);
+
+      ctx.fillStyle = "#cbbd93";
+      ctx.font = "600 11px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("SCRATCH HERE", w / 2, h * 0.74);
+    }
+
+    function getClearedRatio(canvas) {
+      const ctx = canvas.getContext("2d");
+      const { width, height } = canvas;
+      const img = ctx.getImageData(0, 0, width, height).data;
+      let cleared = 0;
+      let sampled = 0;
+      const step = 16;
+
+      for (let i = 3; i < img.length; i += 4 * step) {
+        sampled++;
+        if (img[i] < 128) cleared++;
+      }
+      return sampled > 0 ? cleared / sampled : 0;
+    }
+
+    function completeScratch(cardIndex, amount, code, shouldCelebrate = true) {
+      gameLocked = true;
+
+      for (let idx = 0; idx < 4; idx++) {
+        const cardEl = document.getElementById(`card-${idx}`);
+        const canvasEl = document.getElementById(`scratch-${idx}`);
+        if (idx === cardIndex) {
+          setUnderlayHTML(idx, amount);
+          canvasEl.classList.add("hidden-layer");
+          cardEl.classList.add("revealed");
+          cardEl.classList.remove("dimmed");
+        } else {
+          cardEl.classList.add("dimmed");
+          cardEl.classList.remove("revealed");
+        }
+      }
+
+      document.getElementById("voucherCode").textContent = code;
+      document.getElementById("resultBox").classList.add("visible");
+
+      if (shouldCelebrate) {
+        playWinFanfare(amount);
+        launchConfetti();
+      }
+    }
+
+    function setupScratchCard(idx) {
+      const cardEl = document.getElementById(`card-${idx}`);
+      const canvas = document.getElementById(`scratch-${idx}`);
+      paintScratchFoil(canvas, CARD_META[idx]);
+
+      let isScratching = false;
+      let lastPt = null;
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches && e.touches.length ? e.touches[0].clientY : e.clientY;
+        return {
+          x: clientX - rect.left,
+          y: clientY - rect.top
+        };
+      }
+
+      function eraseBetween(fromPt, toPt) {
+        const dpr = window.devicePixelRatio || 1;
+        const ctx = canvas.getContext("2d");
+        ctx.save();
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 34;
+        ctx.beginPath();
+        ctx.moveTo(fromPt.x, fromPt.y);
+        ctx.lineTo(toPt.x, toPt.y);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function handleStart(e) {
+        if (gameLocked || localStorage.getItem(STORAGE_KEY)) return;
+        getAudioContext();
+        isScratching = true;
+        lastPt = getPos(e);
+        eraseBetween(lastPt, lastPt);
+        playScratchSound();
+      }
+
+      function handleMove(e) {
+        if (!isScratching || gameLocked || localStorage.getItem(STORAGE_KEY)) return;
+        if (e.cancelable) e.preventDefault();
+        const pt = getPos(e);
+        eraseBetween(lastPt || pt, pt);
+        lastPt = pt;
+        playScratchSound();
+
+        if (getClearedRatio(canvas) >= 0.42) {
+          isScratching = false;
+          const wonAmount = cardPrizes[idx];
+          const code = generateCode(wonAmount);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            cardIndex: idx,
+            amount: wonAmount,
+            code
+          }));
+          completeScratch(idx, wonAmount, code, true);
+        }
+      }
+
+      function handleEnd() {
+        isScratching = false;
+        lastPt = null;
+      }
+
+      canvas.addEventListener("pointerdown", handleStart);
+      canvas.addEventListener("pointermove", handleMove);
+      window.addEventListener("pointerup", handleEnd);
+      canvas.addEventListener("touchstart", handleStart, { passive: true });
+      canvas.addEventListener("touchmove", handleMove, { passive: false });
+      window.addEventListener("touchend", handleEnd);
+      cardEl.dataset.initialized = "1";
+    }
+
+    function staffReset() {
+      playResetSound();
+      localStorage.removeItem(STORAGE_KEY);
+      setTimeout(() => location.reload(), 120);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      const dateStr = now.toLocaleDateString([], { day: "2-digit", month: "short" });
+      document.getElementById("liveClock").textContent = `Valid Now • ${dateStr} ${timeStr}`;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      for (let i = 0; i < 4; i++) {
+        const prize = getWeightedPrize();
+        cardPrizes.push(prize);
+        setUnderlayHTML(i, prize);
+        setupScratchCard(i);
+      }
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const { cardIndex, amount, code } = JSON.parse(saved);
+          completeScratch(cardIndex, amount, code, false);
+        } catch (e) {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
